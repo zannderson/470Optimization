@@ -23,7 +23,7 @@ namespace OptimizationAndLearning
                 error += currentError * currentError;
             }
 
-            return error;
+            return error / actual.Count;
         }
 
         public static void CalculateLeastMeans(List<LinearValuePair> points, out double m, out double b)
@@ -53,5 +53,26 @@ namespace OptimizationAndLearning
                 m = b = 0.0;
             }
         }
+
+		public static void GradientDescent(double currentM1, double currentM2, double currentM3, double currentM4, double currentB, List<MultivariateDataValues> points, double learningRate)
+		{
+			double iterationM1 = 0.0;
+			double iterationM2 = 0.0;
+			double iterationM3 = 0.0;
+			double iterationM4 = 0.0;
+			double iterationB = 0.0;
+
+			double numPoints = (double)points.Count;
+
+			foreach (MultivariateDataValues point in points)
+			{
+				iterationB = (-2 / numPoints) * (point.Y - (currentM * point.X));
+			}
+
+			double newM1 = currentM1 - (learningRate * iterationM1);
+			double newM2 = currentM2 - (learningRate * iterationM2);
+			double newM3 = currentM3 - (learningRate * iterationM3);
+			double newM4 = currentM4 - (learningRate * iterationM4);
+		}
     }
 }
