@@ -12,6 +12,7 @@ namespace OptimizationAndLearning
         {
             List<LinearValuePair> linearData = LinearValuePair.GetValuesFromFile("../../Files/univariate_data-train.csv");
 			List<MultivariateDataValues> multivariateData = MultivariateDataValues.GetValuesFromFile("../../Files/multivariate_data-train.csv");
+			TestMultivariateLearn(multivariateData, true);
         }
 
         public static double TestLinearLearn(List<LinearValuePair> linearData, bool learnOnOdds)
@@ -75,9 +76,11 @@ namespace OptimizationAndLearning
             return Helpers.CalculateMeanSquaredError(expectedValues, actualValues);
         }
 
-		public static List<double> TestMultivariateLearn(List<MultivariateDataValues> multivariateData, bool learnOnOdds)
+		public static LinearMultivariateWeights TestMultivariateLearn(List<MultivariateDataValues> multivariateData, bool learnOnOdds)
 		{
+			LinearMultivariateWeights weights = Helpers.PerformGradientDescent(multivariateData, 0.05);
 
+			return weights;
 		}
     }
 }
