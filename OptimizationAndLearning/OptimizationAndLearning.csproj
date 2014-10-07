@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GeneticIndividual.cs" />
     <Compile Include="Helpers.cs" />
     <Compile Include="LinearMultivariateWeights.cs" />
     <Compile Include="LinearValuePair.cs" />

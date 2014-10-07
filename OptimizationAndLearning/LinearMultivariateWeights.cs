@@ -31,5 +31,50 @@ namespace OptimizationAndLearning
 		{
 			W0 = W1 = W2 = W3 = W4 = 0.0;
 		}
+
+        public double this[int key]
+        {
+            get
+            {
+                switch (key)
+                {
+                    case 0:
+                        return W0;
+                    case 1:
+                        return W1;
+                    case 2:
+                        return W2;
+                    case 3:
+                        return W3;
+                    case 4:
+                        return W4;
+                    default:
+                        throw new IndexOutOfRangeException();
+                }
+            }
+            set
+            {
+                switch (key)
+                {
+                    case 0:
+                        W0 = value;
+                        break;
+                    case 1:
+                        W1 = value;
+                        break;
+                    case 2:
+                        W2 = value;
+                        break;
+                    case 3:
+                        W3 = value;
+                        break;
+                    case 4:
+                        W4 = value;
+                        break;
+                    default:
+                        throw new IndexOutOfRangeException();
+                }
+            }
+        }
 	}
 }

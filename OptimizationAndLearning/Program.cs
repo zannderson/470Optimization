@@ -12,7 +12,8 @@ namespace OptimizationAndLearning
         {
             List<LinearValuePair> linearData = LinearValuePair.GetValuesFromFile("../../Files/univariate_data-train.csv");
 			List<MultivariateDataValues> multivariateData = MultivariateDataValues.GetValuesFromFile("../../Files/multivariate_data-train.csv");
-			TestMultivariateLearn(multivariateData, true);
+			//TestMultivariateLearn(multivariateData, true);
+            var dude = Helpers.GeneticLinearRegression(multivariateData, 20, 50, 5, 10.0);
         }
 
         public static double TestLinearLearn(List<LinearValuePair> linearData, bool learnOnOdds)
@@ -78,9 +79,25 @@ namespace OptimizationAndLearning
 
 		public static LinearMultivariateWeights TestMultivariateLearn(List<MultivariateDataValues> multivariateData, bool learnOnOdds)
 		{
-			LinearMultivariateWeights weights = Helpers.PerformGradientDescent(multivariateData, 0.05);
+			LinearMultivariateWeights weights = Helpers.PerformGradientDescent(multivariateData, 0.0000036);
 
 			return weights;
 		}
+
+        public static double TestMultivariateFinal(List<MultivariateDataValues> multivariateData, LinearMultivariateWeights weights)
+        {
+            List<MultivariateDataValues> testData = MultivariateDataValues.GetValuesFromFile("../../Files/multivariate_data-test.csv");
+
+            List<double> expected = new List<double>();
+            List<double> actual = new List<double>();
+
+            foreach (MultivariateDataValues point in testData)
+            {
+                expected.Add(point.Y);
+                actual.Add(Helpers.GetYForMValues(weights, point));
+            }
+
+            return Helpers.CalculateMeanSquaredError(expected, actual);
+        }
     }
 }
