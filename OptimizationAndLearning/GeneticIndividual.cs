@@ -17,13 +17,24 @@ namespace OptimizationAndLearning
             Weights = new LinearMultivariateWeights();
         }
 
-        public static void AttemptMutate(GeneticIndividual subject, int range)
+        public GeneticIndividual(GeneticIndividual cloneMe) : this()
         {
-            if(FakeGaussian(0.5, 0.25) < 0.15)
+            Weights.W0 = cloneMe.Weights.W0;
+            Weights.W1 = cloneMe.Weights.W1;
+            Weights.W2 = cloneMe.Weights.W2;
+            Weights.W3 = cloneMe.Weights.W3;
+            Weights.W4 = cloneMe.Weights.W4;
+        }
+
+        public static bool AttemptMutate(GeneticIndividual subject, int range)
+        {
+            if(FakeGaussian(0.5, 0.25) < 0.25)
             {
                 int index = Helpers.Rand.Next(5);
                 subject.Weights[index] += Helpers.Rand.Next(range) - range;
+                return true;
             }
+            return false;
         }
 
         private static double FakeGaussian(double mean, double stdDev)
@@ -37,21 +48,28 @@ namespace OptimizationAndLearning
             return randNormal;
         }
 
-        public static GeneticIndividual Crossover(GeneticIndividual parentOne, GeneticIndividual parentTwo)
+        public static List<GeneticIndividual> Crossover(GeneticIndividual parentOne, GeneticIndividual parentTwo)
         {
+            List<GeneticIndividual> children = new List<GeneticIndividual>();
             GeneticIndividual child = new GeneticIndividual();
+            GeneticIndividual otherChild = new GeneticIndividual();
 
             int cutPoint = Helpers.Rand.Next(3) + 1;
             for (int i = 0; i < cutPoint; i++)
             {
                 child.Weights[i] = parentOne.Weights[i];
+                otherChild.Weights[i] = parentTwo.Weights[i];
             }
             for (int i = cutPoint; i < 5; i++)
             {
                 child.Weights[i] = parentTwo.Weights[i];
+                otherChild.Weights[i] = parentOne.Weights[i];
             }
 
-            return child;
+            children.Add(child);
+            children.Add(otherChild);
+
+            return children;
         }
     }
 }

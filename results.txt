@@ -1,3 +1,5 @@
+
+-----------------------------------------------------------------------------------------------------
 learning rate 0.000003
 convergence 0.00001
 iteration 132527
@@ -85,3 +87,133 @@ error 0.68264055515370747
 		W2	-0.1262553413844201	double
 		W3	0.17596978622611842	double
 		W4	6.4257208880703205	double
+
+----------------------------------------------------------------------------------------------------
+GA for Linear
+
+Population size: 100
+Keepers: 10
+Crossover: both children
+Expected range: 25
+Cutoff: 5
+Mutations: gauss < 0.25, range 25
+Pad with single variable mutations, 20 range
+No shrinkage
+
+Generation 254763
+error 4.99207079033333
+
+		W0	38.799596012010966	double
+		W1	-0.08157019274382904	double
+		W2	-0.22083415660113204	double
+		W3	0.64613031346634031	double
+		W4	13.57969963251594	double
+
+Generation 229882
+error 4.9756756723265081
+
+Population size: 50
+Keepers: 5
+Crossover: both children
+Expected range: 25
+Cutoff: 5
+Mutations: gauss < 0.25, range 25
+Pad with single variable mutations, 20 range
+No shrinkage
+
+generation 522197
+
+		W0	36.21985703484134	double
+		W1	-0.034091918745136951	double
+		W2	-0.18416742383693574	double
+		W3	0.630065163890901	double
+		W4	13.933026892101864	double
+
+Population size: 200
+Keepers: 10
+Crossover: both children
+Expected range: 25
+Cutoff: 5
+Mutations: gauss < 0.25, range 25
+Pad with single variable mutations, 20 range
+No shrinkage
+
+generation 95198 - still took a while
+
+		W0	39.2098067333965	double
+		W1	-0.093737577131818739	double
+		W2	-0.22427459397555083	double
+		W3	0.64522977948432825	double
+		W4	13.747449246117554	double
+
+Population size: Beginning at 25, increasing by 5 every 1000 generations
+Final population size: 480
+Keepers: 10
+Crossover: both children
+Expected range: 25
+Cutoff: 5
+Mutations: gauss < 0.25, range 25
+Pad with single variable mutations, 20 range
+No shrinkage
+
+generation 91491
+
+		W0	36.823089080314517	double
+		W1	-0.053174143681847141	double
+		W2	-0.21244954979626129	double
+		W3	0.63699658477535337	double
+		W4	13.961373220645374	double
+
+Population size: Beginning at 25, increasing by 10 every 1000 generations
+Final population size: 705
+Keepers: 10
+Crossover: both children
+Expected range: 25
+Cutoff: 5
+Mutations: gauss < 0.25, range 25
+Pad with single variable mutations, 20 range
+No shrinkage
+
+generation 68638
+
+		W0	37.273080185183147	double
+		W1	-0.053300158611151005	double
+		W2	-0.201248202101052	double
+		W3	0.64024372568370325	double
+		W4	13.633180245586086	double
+
+Population size: Beginning at 25, increasing by 2 every 100 generations
+Final population size: 345
+Keepers: 10
+Crossover: both children
+Expected range: 25
+Cutoff: 5
+Mutations: gauss < 0.25, range 25
+Pad with single variable mutations, 20 range
+No shrinkage
+
+generation 16066
+
+		W0	80.169375774529414	double
+		W1	0.19718858236317161	double
+		W2	0.11197689739615768	double
+		W3	-0.0881743310429961	double
+		W4	2.4542942347257188	double
+
+Population size: Beginning at 25, increasing by 2 every 100 generations
+Final population size: 1537
+Keepers: 10
+Crossover: both children
+Expected range: 25
+Cutoff: 5
+Mutations: gauss < 0.25, range 25
+Pad with single variable mutations, 20 range
+No shrinkage
+
+generation 75659 -- TOOK FOREVER!!
+
+		W0	71.131853886941144	double
+		W1	-0.07663932958461217	double
+		W2	-0.16666969944106924	double
+		W3	0.25410202343672594	double
+		W4	6.9491784721376959	double

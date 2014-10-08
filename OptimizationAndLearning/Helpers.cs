@@ -128,11 +128,11 @@ namespace OptimizationAndLearning
             return CalculateMeanSquaredError(expected, actual);
         }
 
-        public static GeneticIndividual GeneticLinearRegression(List<MultivariateDataValues> points, int populationCount, int expectedRange, int keep, double cutoff)
+        public static GeneticIndividual GeneticLinearRegression(List<MultivariateDataValues> points, int initialPopulationCount, int minimumPopulationCount, int expectedRange, int keep, double cutoff)
         {
             //initial population
             List<GeneticIndividual> population = new List<GeneticIndividual>();
-            for (int i = 0; i < populationCount; i++)
+            for (int i = 0; i < initialPopulationCount; i++)
             {
                 population.Add(GenerateRandomIndividual(expectedRange));
             }
@@ -140,9 +140,12 @@ namespace OptimizationAndLearning
             double bestFit = double.MaxValue;
             GeneticIndividual bestIndividual = null;
             int generation = 1;
+            int shrinkage = (initialPopulationCount - minimumPopulationCount) / 10;
 
-            while(bestFit > cutoff)
+            int populationCount = initialPopulationCount;
+            while (bestFit > cutoff)
             {
+                //Console.Out.WriteLine(population.Count);
                 //fitness function
 
                 foreach (GeneticIndividual individual in population)
@@ -152,47 +155,78 @@ namespace OptimizationAndLearning
 
                 //selection
 
-                List<GeneticIndividual> keepers = population.OrderBy(p => p.Fit).ToList();
+                population = population.OrderBy(p => p.Fit).ToList();
                 List<GeneticIndividual> toRemove = new List<GeneticIndividual>();
                 for (int i = keep; i < population.Count; i++)
                 {
-                    toRemove.Add(keepers[i]);
+                    toRemove.Add(population[i]);
                 }
                 foreach (var removeMe in toRemove)
                 {
-                    keepers.Remove(removeMe);
+                    population.Remove(removeMe);
                 }
-                var best = keepers.FirstOrDefault();
+                var best = population.FirstOrDefault();
                 bestFit = best.Fit;
-                Console.Out.WriteLine("Generation " + generation + " " + bestFit);
+                //Console.Out.WriteLine(generation + " " + bestFit);
                 bestIndividual = best;
-                population.Clear();
-                population.AddRange(keepers);
 
-                //crossover
-
-                for (int i = 0; i < population.Count; i+= 2)
+                if (generation % 100 == 0)
                 {
-                    if (i < population.Count - 1)
+                    populationCount += 2;
+                    if (generation % 1000 == 0)
                     {
-                        population.Add(GeneticIndividual.Crossover(population[i], population[i + 1]));
-                    }
-                    else
-                    {
-                        population.Add(GeneticIndividual.Crossover(population[i], population[0]));
+                        Console.Out.WriteLine(generation + " " + bestFit);
                     }
                 }
+
+                //crossover - only selected individuals remain at this point
+
+                //mutate pairs
+                //for (int i = 0; i < population.Count; i+= 2)
+                //{
+                //    if (i < population.Count - 1)
+                //    {
+                //        population.AddRange(GeneticIndividual.Crossover(population[i], population[i + 1]));
+                //    }
+                //    else
+                //    {
+                //        population.AddRange(GeneticIndividual.Crossover(population[i], population[0]));
+                //    }
+                //}
+
+                //stud top x
+                int studs = 2;
+                int currentCount = population.Count;
+                for (int i = 0; i < studs; i++)
+                {
+                    for (int j = studs; j < currentCount; j++)
+                    {
+                        population.AddRange(GeneticIndividual.Crossover(population[i], population[j]));
+                    }
+                }
+                //Console.Out.WriteLine(population.Count);
 
                 //mutation
-
-                foreach (var individual in population)
+                int mutated = 0;
+                for (int i = 0; i < population.Count; i++)
                 {
-                    GeneticIndividual.AttemptMutate(individual, expectedRange);
+                    if (GeneticIndividual.AttemptMutate(population[i], expectedRange))
+                    {
+                        mutated++;
+                    }
                 }
+                //Console.Out.WriteLine("Mutations: " + mutated);
 
                 for (int i = population.Count; i < populationCount; i++)
                 {
-                    population.Add(GenerateRandomIndividual(expectedRange));
+                    //if (i % 2 == 0)
+                    //{
+                    //    population.Add(MuckAround(bestIndividual, 20));
+                    //}
+                    //else
+                    //{
+                        population.Add(ForSureMutate(bestIndividual, 20));
+                    //}
                 }
 
 
@@ -207,6 +241,7 @@ namespace OptimizationAndLearning
                 }
 
                 generation++;
+                //Console.Out.WriteLine(population.Count);
             }
             return bestIndividual;
         }
@@ -223,6 +258,31 @@ namespace OptimizationAndLearning
             {
                 Weights = new LinearMultivariateWeights(w0, w1, w2, w3, w4)
             };
+        }
+
+        private static GeneticIndividual MuckAround(GeneticIndividual startingPoint, int expectedRange)
+        {
+            double w0 = GetDoubleWithinRange(expectedRange);
+            double w1 = GetDoubleWithinRange(expectedRange);
+            double w2 = GetDoubleWithinRange(expectedRange);
+            double w3 = GetDoubleWithinRange(expectedRange);
+            double w4 = GetDoubleWithinRange(expectedRange);
+
+            return new GeneticIndividual
+            {
+                Weights = new LinearMultivariateWeights(startingPoint.Weights.W0 + w0, startingPoint.Weights.W1 + w1, startingPoint.Weights.W2 + w2, startingPoint.Weights.W3 + w3, startingPoint.Weights.W4 + w4)
+            };
+        }
+
+        private static GeneticIndividual ForSureMutate(GeneticIndividual startingPoint, int expectedRange)
+        {
+            double amount = GetDoubleWithinRange(expectedRange);
+
+            int index = Rand.Next(5);
+
+            GeneticIndividual newGuy = new GeneticIndividual(startingPoint);
+            newGuy.Weights[index] += amount;
+            return newGuy;
         }
 
         private static double GetDoubleWithinRange(int range)

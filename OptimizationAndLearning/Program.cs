@@ -13,7 +13,7 @@ namespace OptimizationAndLearning
             List<LinearValuePair> linearData = LinearValuePair.GetValuesFromFile("../../Files/univariate_data-train.csv");
 			List<MultivariateDataValues> multivariateData = MultivariateDataValues.GetValuesFromFile("../../Files/multivariate_data-train.csv");
 			//TestMultivariateLearn(multivariateData, true);
-            var dude = Helpers.GeneticLinearRegression(multivariateData, 20, 50, 5, 10.0);
+            var dude = Helpers.GeneticLinearRegression(multivariateData, 25, 10, 25, 5, 1.0);
         }
 
         public static double TestLinearLearn(List<LinearValuePair> linearData, bool learnOnOdds)
